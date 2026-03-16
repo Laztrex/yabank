@@ -1,0 +1,33 @@
+[package]
+name = "ypbank_parser"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+csv = "1.3"
+serde = { version = "1.0", features = ["derive"] }
+byteorder = "1.5"
+
+[[example]]
+name = "generate_bin"
+path = "../examples/data/generate_bin.rs"
+
+[[example]]
+name = "read_txt"
+path = "../examples/read_txt.rs"
+
+[[example]]
+name = "read_csv"
+path = "examples/read_csv.rs"
+
+[[example]]
+name = "read_bin"
+path = "examples/read_bin.rs"
+
+[[example]]
+name = "convert"
+path = "../examples/convert.rs"
+
+[[example]]
+name = "compare"
+path = "../examples/compare.rs"
