@@ -1,5 +1,0 @@
-error: can't find example `read_bin` at path `/Users/laztrex/RustProjects/yabank/ypbank_parser/examples/read_bin.rs`
- --> /Users/laztrex/RustProjects/yabank/ypbank_parser/Cargo.toml
-error: can't find example `read_csv` at path `/Users/laztrex/RustProjects/yabank/ypbank_parser/examples/read_csv.rs`
- --> /Users/laztrex/RustProjects/yabank/ypbank_parser/Cargo.toml
-error: could not compile due to 2 previous target resolution errors
