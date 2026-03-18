@@ -123,14 +123,14 @@ cargo run --example compare ./examples/data/records_example.csv csv ./examples/d
     Читает входной файл в указанном формате и выводит результат в стандартный вывод (можно перенаправить в файл)
 
     ```bash
-    cargo run --bin ypbank_converter -- --input input.csv --input-format csv --output-format txt > output.txt
+    cargo run --bin ypbank_converter -- --input input.csv --in-format csv --out-format txt > output.txt
     ```
 
     Параметры:  
     * input <ФАЙЛ> - путь к входному файлу.  
-    * input-format <ФОРМАТ> — формат входного файла (csv, txt, bin).
+    * in-format <ФОРМАТ> — формат входного файла (csv, txt, bin).
 
-    * output-format <ФОРМАТ> — желаемый формат вывода.
+    * out-format <ФОРМАТ> — желаемый формат вывода.
 
 * Компаратор (ypbank_comparer).   
 

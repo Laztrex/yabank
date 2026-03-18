@@ -5,7 +5,7 @@ use ypbank_parser::{Format, read_from, write_to};
 
 /// Cli - интерфейс конвертера файлов транзакций между форматами.
 /// input: входной файл (опционально), если не задан - чтение из stdin
-/// input_format: формат входного файла (csv, txt, bin)
+/// in_format: формат входного файла (csv, txt, bin)
 /// output_format: формат выходного файла (csv, txt, bin)
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
@@ -14,27 +14,27 @@ struct Cli {
     input: Option<String>,
 
     #[arg(long)]
-    input_format: String,
+    in_format: String,
 
     #[arg(long)]
-    output_format: String,
+    out_format: String,
 }
 
 fn main() {
     let cli = Cli::parse();
 
-    let input_format = match cli.input_format.parse::<Format>() {
+    let input_format = match cli.in_format.parse::<Format>() {
         Ok(f) => f,
         Err(e) => {
-            eprintln!("Invalid input format '{}': {}", cli.input_format, e);
+            eprintln!("Invalid input format '{}': {}", cli.in_format, e);
             eprintln!("Supported formats: csv, txt, bin");
             std::process::exit(1);
         }
     };
-    let output_format = match cli.output_format.parse::<Format>() {
+    let output_format = match cli.out_format.parse::<Format>() {
         Ok(f) => f,
         Err(e) => {
-            eprintln!("Invalid output format '{}': {}", cli.output_format, e);
+            eprintln!("Invalid output format '{}': {}", cli.out_format, e);
             eprintln!("Supported formats: csv, txt, bin");
             std::process::exit(1);
         }
