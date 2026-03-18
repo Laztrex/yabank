@@ -1,17 +1,17 @@
 use clap::Parser;
 use std::fs::File;
-use std::io::{stdout, BufReader, BufWriter};
+use std::io::{stdin, stdout, BufReader, BufWriter, Read};
 use ypbank_parser::{Format, read_from, write_to};
 
 /// Cli - интерфейс конвертера файлов транзакций между форматами.
-/// input: входной файл
+/// input: входной файл (опционально), если не задан - чтение из stdin
 /// input_format: формат входного файла (csv, txt, bin)
 /// output_format: формат выходного файла (csv, txt, bin)
 #[derive(Parser)]
 #[command(author, version, about, long_about = None)]
 struct Cli {
     #[arg(long)]
-    input: String,
+    input: Option<String>,
 
     #[arg(long)]
     input_format: String,
@@ -27,6 +27,7 @@ fn main() {
         Ok(f) => f,
         Err(e) => {
             eprintln!("Invalid input format '{}': {}", cli.input_format, e);
+            eprintln!("Supported formats: csv, txt, bin");
             std::process::exit(1);
         }
     };
@@ -34,23 +35,27 @@ fn main() {
         Ok(f) => f,
         Err(e) => {
             eprintln!("Invalid output format '{}': {}", cli.output_format, e);
+            eprintln!("Supported formats: csv, txt, bin");
             std::process::exit(1);
         }
     };
 
-    let file = match File::open(&cli.input) {
-        Ok(f) => f,
-        Err(e) => {
-            eprintln!("Failed to open input file '{}': {}", cli.input, e);
-            std::process::exit(1);
-        }
+    let input: Box<dyn Read> = match cli.input.as_deref() {
+        Some("-") | None => Box::new(stdin().lock()),
+        Some(path) => match File::open(path) {
+            Ok(f) => Box::new(f),
+            Err(e) => {
+                eprintln!("Failed to open input file '{}': {}", path, e);
+                std::process::exit(1);
+            }
+        },
     };
-    let reader = BufReader::new(file);
+    let reader = BufReader::new(input);
 
     let transactions = match read_from(reader, input_format) {
         Ok(t) => t,
         Err(e) => {
-            eprintln!("Error reading from '{}': {}", cli.input, e);
+            eprintln!("Error reading input: {}", e);
             std::process::exit(1);
         }
     };

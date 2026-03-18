@@ -72,7 +72,7 @@ fn get_required<'a>(map: &'a HashMap<String, String>, key: &str) -> Result<&'a S
     map.get(key).ok_or_else(|| Error::InvalidFormat(format!("missing field {}", key)))
 }
 
-/// Записывает транзакции в текстовом формате в writer.
+/// write_to записывает транзакции в текстовом формате в writer.
 pub fn write_to<W: Write>(transactions: &[Transaction], mut writer: W) -> Result<(), Error> {
     for (i, tx) in transactions.iter().enumerate() {
         if i > 0 {

@@ -12,16 +12,19 @@ pub fn test_data_dir() -> PathBuf {
 }
 
 /// Возвращает путь к файлу `records_example.txt` в тестовой директории.
+#[allow(dead_code)]
 pub fn records_txt_path() -> PathBuf {
     test_data_dir().join("records_example.txt")
 }
 
 /// Возвращает путь к файлу `records_example.csv` в тестовой директории.
+#[allow(dead_code)]
 pub fn records_csv_path() -> PathBuf {
     test_data_dir().join("records_example.csv")
 }
 
 /// Возвращает путь к файлу `records_example.bin` в тестовой директории.
+#[allow(dead_code)]
 pub fn records_bin_path() -> PathBuf {
     test_data_dir().join("records_example.bin")
 }

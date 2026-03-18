@@ -18,11 +18,11 @@ path = "../examples/read_txt.rs"
 
 [[example]]
 name = "read_csv"
-path = "examples/read_csv.rs"
+path = "../examples/read_csv.rs"
 
 [[example]]
 name = "read_bin"
-path = "examples/read_bin.rs"
+path = "../examples/read_bin.rs"
 
 [[example]]
 name = "convert"
