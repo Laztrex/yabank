@@ -1,7 +1,7 @@
 use clap::Parser;
 use std::fs::File;
 use std::io::{stdin, stdout, BufReader, BufWriter, Read};
-use ypbank_parser::{Format, read_from, write_to};
+use ypbank_parser::{read_from, write_to, Format};
 
 /// Cli - интерфейс конвертера файлов транзакций между форматами.
 /// input: входной файл (опционально), если не задан - чтение из stdin

@@ -39,7 +39,10 @@ impl TxType {
             "DEPOSIT" => Ok(TxType::Deposit),
             "TRANSFER" => Ok(TxType::Transfer),
             "WITHDRAWAL" => Ok(TxType::Withdrawal),
-            _ => Err(super::Error::InvalidValue(format!("unknown TX_TYPE: {}", s))),
+            _ => Err(super::Error::InvalidValue(format!(
+                "unknown TX_TYPE: {}",
+                s
+            ))),
         }
     }
 }

@@ -54,9 +54,7 @@ impl TryFrom<CsvRecord> for Transaction {
 /// read_from читает транзакции из источника, реализующего Read, в формате CSV.
 /// ожидается, что источник соблюдает формат полей из Спецификации [README.md].
 pub fn read_from<R: Read>(reader: R) -> Result<Vec<Transaction>, Error> {
-    let mut csv_reader = ReaderBuilder::new()
-        .has_headers(true)
-        .from_reader(reader);
+    let mut csv_reader = ReaderBuilder::new().has_headers(true).from_reader(reader);
 
     let mut transactions = Vec::new();
     for result in csv_reader.deserialize() {
@@ -68,13 +66,13 @@ pub fn read_from<R: Read>(reader: R) -> Result<Vec<Transaction>, Error> {
 
 /// write_to записывает транзакции в структуру, реализующую Write, в формате CSV.
 pub fn write_to<W: Write>(transactions: &[Transaction], writer: W) -> Result<(), Error> {
-    let mut csv_writer = WriterBuilder::new()
-        .has_headers(true)
-        .from_writer(writer);
+    let mut csv_writer = WriterBuilder::new().has_headers(true).from_writer(writer);
 
     for tx in transactions {
         let record = CsvRecord::from(tx);
-        csv_writer.serialize(record).map_err(|e| Error::InvalidFormat(e.to_string()))?;
+        csv_writer
+            .serialize(record)
+            .map_err(|e| Error::InvalidFormat(e.to_string()))?;
     }
     csv_writer.flush().map_err(Error::Io)?;
     Ok(())

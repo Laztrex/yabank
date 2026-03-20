@@ -1,7 +1,7 @@
 use clap::Parser;
 use std::fs::File;
 use std::io::BufReader;
-use ypbank_parser::{Format, read_from};
+use ypbank_parser::{read_from, Format};
 
 /// Cli - интерфейс сравнения двух файлов транзакций.
 /// file1: первый файл
@@ -88,7 +88,11 @@ fn main() {
             }
         }
         if txs1.len() != txs2.len() {
-            println!("Length mismatch: file1 has {}, file2 has {}", txs1.len(), txs2.len());
+            println!(
+                "Length mismatch: file1 has {}, file2 has {}",
+                txs1.len(),
+                txs2.len()
+            );
         }
     }
 }

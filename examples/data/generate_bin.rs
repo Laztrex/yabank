@@ -1,7 +1,7 @@
 use std::fs::{self, File};
 use std::io::BufWriter;
 use std::path::Path;
-use ypbank_parser::{write_to, Format, Transaction, TxType, Status};
+use ypbank_parser::{write_to, Format, Status, Transaction, TxType};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let manifest_dir = std::env::var("CARGO_MANIFEST_DIR")?;

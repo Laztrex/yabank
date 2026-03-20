@@ -28,7 +28,7 @@ pub fn read_from<R: Read>(reader: R) -> Result<Vec<Transaction>, Error> {
             let key = key.trim();
             let value = value.trim();
             let value = if key == "DESCRIPTION" && value.starts_with('"') && value.ends_with('"') {
-                &value[1..value.len()-1]
+                &value[1..value.len() - 1]
             } else {
                 value
             };
@@ -46,7 +46,6 @@ pub fn read_from<R: Read>(reader: R) -> Result<Vec<Transaction>, Error> {
 
 /// parse_record парсит запись из HashMap полей.
 fn parse_record(map: &HashMap<String, String>) -> Result<Transaction, Error> {
-
     let tx_id = get_required(map, "TX_ID")?.parse()?;
     let tx_type = TxType::from_str(get_required(map, "TX_TYPE")?)?;
     let from_user_id = get_required(map, "FROM_USER_ID")?.parse()?;
@@ -69,7 +68,8 @@ fn parse_record(map: &HashMap<String, String>) -> Result<Transaction, Error> {
 }
 
 fn get_required<'a>(map: &'a HashMap<String, String>, key: &str) -> Result<&'a String, Error> {
-    map.get(key).ok_or_else(|| Error::InvalidFormat(format!("missing field {}", key)))
+    map.get(key)
+        .ok_or_else(|| Error::InvalidFormat(format!("missing field {}", key)))
 }
 
 /// write_to записывает транзакции в текстовом формате в writer.

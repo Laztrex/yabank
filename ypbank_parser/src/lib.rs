@@ -7,11 +7,11 @@
 //! Все операции чтения/записи используют трейты `Read` и `Write` из стандартной библиотеки,
 //! что позволяет работать с файлами, буферами, сетевыми потоками и т.д.
 
+pub mod bin;
+pub mod csv;
 pub mod error;
 pub mod models;
-pub mod csv;
 pub mod txt;
-pub mod bin;
 
 pub use error::Error;
 pub use models::{Status, Transaction, TxType};
@@ -26,7 +26,11 @@ pub fn read_from<R: std::io::Read>(reader: R, format: Format) -> Result<Vec<Tran
 }
 
 /// write_to записывает транзакции в структуру в указанном формате.
-pub fn write_to<W: std::io::Write>(transactions: &[Transaction], writer: W, format: Format) -> Result<(), Error> {
+pub fn write_to<W: std::io::Write>(
+    transactions: &[Transaction],
+    writer: W,
+    format: Format,
+) -> Result<(), Error> {
     match format {
         Format::Csv => csv::write_to(transactions, writer),
         Format::Txt => txt::write_to(transactions, writer),
