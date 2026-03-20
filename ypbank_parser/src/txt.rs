@@ -1,17 +1,17 @@
 use crate::error::Error;
-use crate::models::{Status, Transaction, TxType};
+use crate::models::Transaction;
 use std::collections::HashMap;
 use std::io::{BufRead, BufReader, Read, Write};
 
 /// read_from читает транзакции из источника, реализующего Read, в формате TXT.
 /// ожидается, что источник соблюдает формат полей из Спецификации [README.md].
 pub fn read_from<R: Read>(reader: R) -> Result<Vec<Transaction>, Error> {
-    let reader = BufReader::new(reader); // убрано `mut`
-    let mut lines = reader.lines();
+    let reader = BufReader::new(reader);
+    let lines = reader.lines();
     let mut transactions = Vec::new();
     let mut current_record = HashMap::new();
 
-    while let Some(line) = lines.next() {
+    for line in lines {
         let line = line?.trim().to_owned();
         if line.is_empty() {
             // Пустая строка разделяет записи
@@ -47,12 +47,12 @@ pub fn read_from<R: Read>(reader: R) -> Result<Vec<Transaction>, Error> {
 /// parse_record парсит запись из HashMap полей.
 fn parse_record(map: &HashMap<String, String>) -> Result<Transaction, Error> {
     let tx_id = get_required(map, "TX_ID")?.parse()?;
-    let tx_type = TxType::from_str(get_required(map, "TX_TYPE")?)?;
+    let tx_type = get_required(map, "TX_TYPE")?.parse()?;
     let from_user_id = get_required(map, "FROM_USER_ID")?.parse()?;
     let to_user_id = get_required(map, "TO_USER_ID")?.parse()?;
     let amount = get_required(map, "AMOUNT")?.parse()?;
     let timestamp = get_required(map, "TIMESTAMP")?.parse()?;
-    let status = Status::from_str(get_required(map, "STATUS")?)?;
+    let status = get_required(map, "STATUS")?.parse()?;
     let description = map.get("DESCRIPTION").unwrap_or(&String::new()).to_owned();
 
     Ok(Transaction {
@@ -93,7 +93,8 @@ pub fn write_to<W: Write>(transactions: &[Transaction], mut writer: W) -> Result
 #[cfg(test)]
 mod tests {
     use super::*;
-
+    use crate::models::{Status, TxType};
+    
     #[test]
     fn test_txt_roundtrip() {
         let txs = vec![

@@ -1,5 +1,5 @@
 use crate::error::Error;
-use crate::models::{Status, Transaction, TxType};
+use crate::models::Transaction;
 use csv::{ReaderBuilder, WriterBuilder};
 use serde::{Deserialize, Serialize};
 use std::io::{Read, Write};
@@ -40,12 +40,12 @@ impl TryFrom<CsvRecord> for Transaction {
     fn try_from(rec: CsvRecord) -> Result<Self, Self::Error> {
         Ok(Transaction {
             tx_id: rec.tx_id,
-            tx_type: TxType::from_str(&rec.tx_type)?,
+            tx_type: rec.tx_type.parse()?,
             from_user_id: rec.from_user_id,
             to_user_id: rec.to_user_id,
             amount: rec.amount,
             timestamp: rec.timestamp,
-            status: Status::from_str(&rec.status)?,
+            status: rec.status.parse()?,
             description: rec.description,
         })
     }

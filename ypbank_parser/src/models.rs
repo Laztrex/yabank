@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::str::FromStr;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "UPPERCASE")]
@@ -33,16 +34,17 @@ impl TxType {
             TxType::Withdrawal => "WITHDRAWAL",
         }
     }
+}
 
-    pub fn from_str(s: &str) -> Result<Self, super::Error> {
+impl FromStr for TxType {
+    type Err = super::Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             "DEPOSIT" => Ok(TxType::Deposit),
             "TRANSFER" => Ok(TxType::Transfer),
             "WITHDRAWAL" => Ok(TxType::Withdrawal),
-            _ => Err(super::Error::InvalidValue(format!(
-                "unknown TX_TYPE: {}",
-                s
-            ))),
+            _ => Err(super::Error::InvalidValue(format!("unknown TX_TYPE: {}", s))),
         }
     }
 }
@@ -80,8 +82,12 @@ impl Status {
             Status::Pending => "PENDING",
         }
     }
+}
 
-    pub fn from_str(s: &str) -> Result<Self, super::Error> {
+impl FromStr for Status {
+    type Err = super::Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             "SUCCESS" => Ok(Status::Success),
             "FAILURE" => Ok(Status::Failure),
