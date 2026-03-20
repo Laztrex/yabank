@@ -94,7 +94,7 @@ pub fn write_to<W: Write>(transactions: &[Transaction], mut writer: W) -> Result
 mod tests {
     use super::*;
     use crate::models::{Status, TxType};
-    
+
     #[test]
     fn test_txt_roundtrip() {
         let txs = vec![
